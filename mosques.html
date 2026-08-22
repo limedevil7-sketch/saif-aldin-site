@@ -1,522 +1,508 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>أقرب مسجد | سيف الدين</title>
+<title>أقرب 7 مساجد</title>
 
-    <!-- Leaflet Map -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+*{
+box-sizing:border-box
+}
 
-        body {
-            margin: 0;
-            background: #f8f9ff;
-            color: #121c2a;
-            font-family: Arial, sans-serif;
-        }
+body{
+margin:0;
+background:#f8f9ff;
+font-family:Arial,sans-serif;
+color:#222;
+}
 
-        header {
-            background: #003527;
-            color: white;
-            padding: 18px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+header{
+background:#003527;
+color:white;
+padding:20px;
+text-align:center;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
+#map{
+width:100%;
+height:45vh;
+}
 
-        header p {
-            margin: 6px 0 0;
-            opacity: .8;
-        }
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
 
-        #map {
-            width: 100%;
-            height: 45vh;
-            min-height: 320px;
-        }
+.card{
+background:white;
+border-radius:18px;
+padding:15px;
+margin-bottom:15px;
+box-shadow:0 5px 20px #0002;
+}
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 20px;
-        }
+.status{
+text-align:center;
+}
 
-        .status {
-            background: white;
-            border-radius: 18px;
-            padding: 16px;
-            margin-bottom: 18px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.06);
-            text-align: center;
-        }
+.mosque{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
 
-        .loading {
-            color: #003527;
-        }
+.name{
+font-size:18px;
+font-weight:bold;
+color:#003527;
+}
 
-        .error {
-            color: #ba1a1a;
-        }
+.btn{
+background:#064e3b;
+color:white;
+padding:10px 15px;
+border-radius:12px;
+text-decoration:none;
+border:none;
+cursor:pointer;
+}
 
-        .mosque {
-            background: white;
-            border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.05);
+.error{
+color:red;
+}
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
+.leaflet-popup-content{
+direction:rtl;
+text-align:right;
+}
 
-        .mosque-info {
-            flex: 1;
-        }
+@media(max-width:600px){
 
-        .mosque-name {
-            font-size: 18px;
-            font-weight: bold;
-            color: #003527;
-            margin-bottom: 7px;
-        }
+.mosque{
+flex-direction:column;
+align-items:flex-start;
+}
 
-        .mosque-distance {
-            color: #555;
-            font-size: 14px;
-        }
+}
+</style>
 
-        .directions {
-            display: inline-block;
-            background: #064e3b;
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            padding: 10px 14px;
-            white-space: nowrap;
-        }
-
-        .directions:hover {
-            background: #003527;
-        }
-
-        .section-title {
-            font-size: 22px;
-            margin: 10px 0 16px;
-        }
-
-        @media (max-width: 600px) {
-            .mosque {
-                align-items: flex-start;
-            }
-
-            .directions {
-                font-size: 13px;
-                padding: 9px 11px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
+
 <header>
-    <h1>🕌 أقرب مسجد</h1>
-    <p>أقرب 7 مساجد إلى موقعك</p>
+
+<h1>🕌 أقرب مسجد</h1>
+
+<p>أقرب 7 مساجد إلى موقعك</p>
+
 </header>
+
 
 <div id="map"></div>
 
+
 <div class="container">
 
-    <div id="status" class="status loading">
-        جاري تحديد موقعك...
-    </div>
 
-    <h2 class="section-title">أقرب 7 مساجد</h2>
+<div id="status" class="card status">
+جاري تحديد موقعك...
+</div>
 
-    <div id="mosques-list"></div>
+
+<button class="btn" onclick="getLocation()">
+🔄 تحديث الموقع
+</button>
+
+
+<h2>
+أقرب 7 مساجد
+</h2>
+
+
+<div id="list"></div>
+
 
 </div>
 
-<!-- Leaflet -->
+
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 
 <script>
 
-const statusBox = document.getElementById("status");
-const mosquesList = document.getElementById("mosques-list");
-
 let map;
-let userMarker;
-let mosqueMarkers = [];
 
 
-// ===============================
-// حساب المسافة بين نقطتين
-// ===============================
+const statusBox =
+document.getElementById("status");
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
-
-    const R = 6371;
-
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-
-    const a =
-        Math.sin(dLat / 2) ** 2 +
-        Math.cos(lat1 * Math.PI / 180) *
-        Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLon / 2) ** 2;
-
-    const c = 2 * Math.atan2(
-        Math.sqrt(a),
-        Math.sqrt(1 - a)
-    );
-
-    return R * c;
-}
+const list =
+document.getElementById("list");
 
 
-// ===============================
-// تحديد الموقع
-// ===============================
 
-function getLocation() {
+function calcDistance(lat1,lon1,lat2,lon2){
 
-    if (!navigator.geolocation) {
+let R=6371;
 
-        statusBox.textContent =
-            "المتصفح لا يدعم تحديد الموقع.";
+let dLat=(lat2-lat1)*Math.PI/180;
 
-        statusBox.className = "status error";
-
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-
-        position => {
-
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-
-            showMap(lat, lon);
-            findMosques(lat, lon);
-
-        },
-
-        error => {
-
-            statusBox.textContent =
-                "لم نتمكن من تحديد موقعك. تأكد من السماح للموقع.";
-
-            statusBox.className = "status error";
-
-            console.error(error);
-
-        },
-
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 300000
-        }
-
-    );
-}
+let dLon=(lon2-lon1)*Math.PI/180;
 
 
-// ===============================
-// إنشاء الخريطة
-// ===============================
-
-function showMap(lat, lon) {
-
-    map = L.map("map").setView(
-        [lat, lon],
-        15
-    );
-
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 19,
-            attribution: "&copy; OpenStreetMap"
-        }
-    ).addTo(map);
+let a =
+Math.sin(dLat/2)**2 +
+Math.cos(lat1*Math.PI/180) *
+Math.cos(lat2*Math.PI/180) *
+Math.sin(dLon/2)**2;
 
 
-    userMarker = L.marker([lat, lon])
-        .addTo(map)
-        .bindPopup("📍 موقعك الحالي")
-        .openPopup();
+return R*2*Math.atan2(
+Math.sqrt(a),
+Math.sqrt(1-a)
+);
 
 }
 
 
-// ===============================
-// البحث عن المساجد
-// ===============================
 
-async function findMosques(lat, lon) {
-
-    statusBox.textContent =
-        "جاري البحث عن أقرب المساجد...";
-
-    try {
-
-        const radius = 10000;
-
-        const query = `
-            [out:json][timeout:25];
-
-            (
-                node["amenity"="place_of_worship"](around:${radius},${lat},${lon});
-                way["amenity"="place_of_worship"](around:${radius},${lat},${lon});
-                relation["amenity"="place_of_worship"](around:${radius},${lat},${lon});
-            );
-
-            out center tags;
-        `;
-
-        const response = await fetch(
-            "https://overpass-api.de/api/interpreter",
-            {
-                method: "POST",
-                body: query
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error("Overpass API error");
-        }
-
-        const data = await response.json();
-
-        let mosques = data.elements
-            .map(place => {
-
-                const placeLat =
-                    place.lat ??
-                    place.center?.lat;
-
-                const placeLon =
-                    place.lon ??
-                    place.center?.lon;
-
-                if (
-                    typeof placeLat !== "number" ||
-                    typeof placeLon !== "number"
-                ) {
-                    return null;
-                }
-
-                const tags = place.tags || {};
-
-                const name =
-                    tags.name ||
-                    tags["name:ar"] ||
-                    "مسجد قريب";
-
-                const distance =
-                    calculateDistance(
-                        lat,
-                        lon,
-                        placeLat,
-                        placeLon
-                    );
-
-                return {
-                    name,
-                    lat: placeLat,
-                    lon: placeLon,
-                    distance
-                };
-
-            })
-            .filter(Boolean);
+function getLocation(){
 
 
-        // ترتيب حسب الأقرب
+if(!navigator.geolocation){
 
-        mosques.sort(
-            (a, b) =>
-                a.distance - b.distance
-        );
+statusBox.innerHTML=
+"المتصفح لا يدعم الموقع";
 
-
-        // إزالة النتائج المتكررة تقريبًا
-
-        const unique = [];
-
-        for (const mosque of mosques) {
-
-            const duplicate =
-                unique.some(item =>
-                    calculateDistance(
-                        item.lat,
-                        item.lon,
-                        mosque.lat,
-                        mosque.lon
-                    ) < 0.05
-                );
-
-            if (!duplicate) {
-                unique.push(mosque);
-            }
-
-            if (unique.length === 7) {
-                break;
-            }
-        }
-
-
-        displayMosques(unique);
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        statusBox.textContent =
-            "حدث خطأ أثناء البحث عن المساجد. حاول مرة أخرى.";
-
-        statusBox.className =
-            "status error";
-
-    }
+return;
 
 }
 
 
-// ===============================
-// عرض المساجد
-// ===============================
 
-function displayMosques(mosques) {
+navigator.geolocation.getCurrentPosition(
 
-    mosquesList.innerHTML = "";
+pos=>{
 
-    if (!mosques.length) {
+let lat =
+pos.coords.latitude;
 
-        statusBox.textContent =
-            "لم نجد مساجد قريبة في النطاق الحالي.";
-
-        statusBox.className =
-            "status error";
-
-        return;
-    }
-
-    statusBox.textContent =
-        `تم العثور على ${mosques.length} مساجد قريبة منك`;
-
-    statusBox.className =
-        "status";
+let lon =
+pos.coords.longitude;
 
 
-    mosques.forEach((mosque, index) => {
+loadMap(lat,lon);
 
-        const distance =
-            mosque.distance < 1
-                ? `${Math.round(mosque.distance * 1000)} متر`
-                : `${mosque.distance.toFixed(1)} كم`;
+searchMosques(lat,lon);
 
 
-        const directionsUrl =
-            `https://www.google.com/maps/dir/?api=1&destination=${mosque.lat},${mosque.lon}`;
+},
 
 
-        const item =
-            document.createElement("div");
+()=>{
 
-        item.className = "mosque";
+statusBox.innerHTML=
+"يرجى السماح باستخدام الموقع";
 
-        item.innerHTML = `
+statusBox.className=
+"card status error";
 
-            <div class="mosque-info">
+},
 
-                <div class="mosque-name">
-                    🕌 ${index + 1}. ${escapeHtml(mosque.name)}
-                </div>
+{
 
-                <div class="mosque-distance">
-                    📍 ${distance}
-                </div>
-
-            </div>
-
-            <a
-                class="directions"
-                href="${directionsUrl}"
-                target="_blank"
-                rel="noopener"
-            >
-                الاتجاهات
-            </a>
-        `;
-
-        mosquesList.appendChild(item);
-
-
-        // Marker على الخريطة
-
-        const marker =
-            L.marker([
-                mosque.lat,
-                mosque.lon
-            ])
-            .addTo(map)
-            .bindPopup(`
-                <strong>🕌 ${escapeHtml(mosque.name)}</strong>
-                <br>
-                ${distance}
-            `);
-
-        mosqueMarkers.push(marker);
-
-    });
+enableHighAccuracy:true,
+timeout:10000
 
 }
 
 
-// ===============================
-// حماية اسم المسجد من HTML
-// ===============================
+);
 
-function escapeHtml(text) {
 
-    const div =
-        document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
 }
 
 
-// تشغيل الصفحة
+
+
+function loadMap(lat,lon){
+
+
+if(map)
+map.remove();
+
+
+map=L.map("map")
+.setView([lat,lon],15);
+
+
+
+L.tileLayer(
+
+"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+
+{
+
+maxZoom:19,
+attribution:"© OpenStreetMap"
+
+}
+
+).addTo(map);
+
+
+
+L.marker([lat,lon])
+
+.addTo(map)
+
+.bindPopup("📍 موقعك الحالي")
+
+.openPopup();
+
+
+}
+
+
+
+
+
+async function searchMosques(lat,lon){
+
+
+statusBox.innerHTML=
+"جاري البحث عن المساجد...";
+
+
+
+let radius=10000;
+
+
+
+let query=
+
+`
+
+[out:json];
+
+(
+
+node["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lon});
+
+way["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lon});
+
+);
+
+out center tags;
+
+`;
+
+
+
+try{
+
+
+let response =
+await fetch(
+
+"https://overpass-api.de/api/interpreter",
+
+{
+
+method:"POST",
+
+body:query
+
+}
+
+);
+
+
+
+let data =
+await response.json();
+
+
+
+let mosques =
+data.elements.map(m=>{
+
+
+let mlat =
+m.lat || m.center?.lat;
+
+
+let mlon =
+m.lon || m.center?.lon;
+
+
+
+return {
+
+name:
+m.tags?.name ||
+m.tags?.["name:ar"] ||
+"مسجد قريب",
+
+lat:mlat,
+
+lon:mlon,
+
+distance:
+calcDistance(
+lat,
+lon,
+mlat,
+mlon
+)
+
+};
+
+
+})
+.filter(x=>x.lat);
+
+
+
+mosques.sort(
+(a,b)=>
+a.distance-b.distance
+);
+
+
+
+mosques =
+mosques.slice(0,7);
+
+
+
+showMosques(mosques);
+
+
+
+}
+
+catch(e){
+
+
+statusBox.innerHTML=
+"حدث خطأ أثناء البحث";
+
+statusBox.className=
+"card status error";
+
+
+}
+
+
+}
+
+
+
+
+
+function showMosques(mosques){
+
+
+list.innerHTML="";
+
+
+statusBox.innerHTML=
+"تم العثور على "
++
+mosques.length
++
+" مساجد";
+
+
+
+mosques.forEach((m,i)=>{
+
+
+let distance =
+m.distance < 1 ?
+
+Math.round(m.distance*1000)+" متر"
+
+:
+
+m.distance.toFixed(1)+" كم";
+
+
+
+list.innerHTML +=
+
+`
+
+<div class="card mosque">
+
+<div>
+
+<div class="name">
+
+🕌 ${i+1}. ${m.name}
+
+</div>
+
+<div>
+
+📍 ${distance}
+
+</div>
+
+</div>
+
+
+<a class="btn"
+
+target="_blank"
+
+href="https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lon}">
+
+الاتجاهات
+
+</a>
+
+
+</div>
+
+`;
+
+
+
+L.marker([m.lat,m.lon])
+
+.addTo(map)
+
+.bindPopup(
+
+"<b>🕌 "+m.name+
+"</b><br>"+distance
+
+);
+
+
+});
+
+
+}
+
+
 
 getLocation();
 
+
 </script>
+
 
 </body>
 </html>
