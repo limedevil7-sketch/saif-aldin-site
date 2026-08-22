@@ -336,6 +336,7 @@
             currentPrayer = prayer;
         }
 
+        // إذا انقضت كل صلوات اليوم (مثل بعد العشاء)
         if (!nextPrayer) {
             const tomorrowDate = new Date(state.tomorrow.date);
             const fajr = tomorrowPrayers.find(prayer => prayer.key === "Fajr");
@@ -343,22 +344,19 @@
                 nextPrayer = fajr;
                 nextPrayerDate = prayerTimeToDate(fajr.time, tomorrowDate);
             }
+            // بما أن العشاء انتهى وقته ودخلنا الليل، الصلاة القادمة هي الفجر، 
+            // ونستطيع إظهار العشاء انقضت أو جعل الحالية هي العشاء التي مضت وقتها والقادمة الفجر
             currentPrayer = todayPrayers[todayPrayers.length - 1];
-        }
-
-        if (!currentPrayer) {
-            currentPrayer = {
-                key: "Isha",
-                name: prayerNames.Isha,
-                time: state.today.timings.Isha
-            };
         }
 
         if (!nextPrayerDate) return;
 
         if (currentPrayerName) currentPrayerName.textContent = currentPrayer.name;
         if (currentPrayerTime) currentPrayerTime.textContent = formatArabicTime(currentPrayer.time);
-        if (nextPrayerText) nextPrayerText.textContent = `${nextPrayer.name} • ${formatArabicTime(nextPrayer.time)}`;
+        
+        if (nextPrayerText) {
+            nextPrayerText.textContent = `${nextPrayer.name} • ${formatArabicTime(nextPrayer.time)}`;
+        }
 
         startCountdown(nextPrayerDate);
     }
