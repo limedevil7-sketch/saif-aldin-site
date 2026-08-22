@@ -1,6 +1,3 @@
-# النسخة المعدلة الكاملة — سيف الدين
-
-```html
 <!DOCTYPE html>
 <html class="light" dir="rtl" lang="ar">
 <head>
@@ -12,8 +9,18 @@
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Cairo:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
 
 <script>
 tailwind.config = {
@@ -21,7 +28,6 @@ tailwind.config = {
 
     theme: {
         extend: {
-
             colors: {
                 primary: "#064e3b",
                 secondary: "#d4af37",
@@ -39,6 +45,7 @@ tailwind.config = {
                 DEFAULT: "0.25rem",
                 lg: "0.5rem",
                 xl: "0.75rem",
+                "2xl": "1rem",
                 full: "9999px"
             },
 
@@ -57,260 +64,290 @@ tailwind.config = {
 }
 
 .glass-effect {
-    background: rgba(253,251,247,.78);
+    background: rgba(253, 251, 247, 0.78);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
 
 .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(212, 175, 55, 0.55);
+    outline-offset: 2px;
+}
+
+[aria-busy="true"] {
+    cursor: wait;
 }
 </style>
 </head>
 
 <body class="bg-background text-on-background font-sans antialiased pb-24 md:pb-0 min-h-screen">
 
-<div class="fixed inset-0 pattern-overlay pointer-events-none -z-10"></div>
+<div
+    class="fixed inset-0 pattern-overlay pointer-events-none -z-10"
+    aria-hidden="true"
+></div>
 
 <!-- HEADER -->
-<header class="fixed top-0 right-0 w-full z-50 flex justify-between items-center px-5 md:px-10 h-16 bg-surface shadow-sm">
-
+<header
+    class="fixed top-0 right-0 w-full z-50 flex justify-between items-center px-5 md:px-10 h-16 bg-surface shadow-sm"
+>
     <div class="flex items-center gap-3">
-
         <div class="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center">
-            <span class="material-symbols-outlined">mosque</span>
+            <span class="material-symbols-outlined" aria-hidden="true">mosque</span>
         </div>
 
         <span class="text-xl md:text-2xl font-bold text-primary">
             سيف الدين
         </span>
-
     </div>
 
-    <nav class="hidden md:flex items-center gap-6">
-
-        <a class="text-primary font-bold border-b-2 border-secondary pb-1"
-           href="#home">
+    <nav class="hidden md:flex items-center gap-6" aria-label="التنقل الرئيسي">
+        <a
+            class="text-primary font-bold border-b-2 border-secondary pb-1"
+            href="#home"
+            aria-current="page"
+        >
             الرئيسية
         </a>
 
-        <a class="text-on-surface-variant hover:text-primary"
-           href="quran.html">
+        <a
+            class="text-on-surface-variant hover:text-primary"
+            href="quran.html"
+        >
             القرآن
         </a>
 
-        <a class="text-on-surface-variant hover:text-primary"
-           href="quran.html#adhkar">
+        <a
+            class="text-on-surface-variant hover:text-primary"
+            href="quran.html#adhkar"
+        >
             الأذكار
         </a>
 
-        <a class="text-on-surface-variant hover:text-primary"
-           href="qibla.html">
+        <a
+            class="text-on-surface-variant hover:text-primary"
+            href="qibla.html"
+        >
             القبلة
         </a>
-
     </nav>
 
     <div class="flex items-center gap-3 text-primary">
-
         <button
             id="downloadAppButton"
+            type="button"
             class="hidden md:flex bg-primary/10 text-primary px-4 py-2 rounded-full items-center gap-2"
         >
-            <span class="material-symbols-outlined text-sm">
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">
                 phone_iphone
             </span>
-
             تنزيل التطبيق
         </button>
 
         <button
             id="profileButton"
+            type="button"
             aria-label="الملف الشخصي"
             class="hover:opacity-70"
         >
-            <span class="material-symbols-outlined">
+            <span class="material-symbols-outlined" aria-hidden="true">
                 person
             </span>
         </button>
-
     </div>
 </header>
 
 
 <!-- SIDEBAR -->
-<aside class="hidden md:flex fixed right-0 top-16 h-[calc(100vh-64px)] w-72 z-40 flex-col p-6 bg-surface shadow-xl border-l border-surface-container-low">
-
+<aside
+    class="hidden md:flex fixed right-0 top-16 h-[calc(100vh-64px)] w-72 z-40 flex-col p-6 bg-surface shadow-xl border-l border-surface-container-low"
+>
     <div class="mb-8 text-right">
-
-        <h2 id="sidebarUserName"
-            class="text-2xl font-bold text-primary">
+        <h2
+            id="sidebarUserName"
+            class="text-2xl font-bold text-primary"
+        >
             سيف الدين
         </h2>
 
         <p class="text-on-surface-variant text-sm mt-1">
             رحلة روحانية
         </p>
-
     </div>
 
-    <nav class="flex flex-col gap-2">
-
-        <a href="#profile"
-           class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-container-high text-on-surface-variant">
-
-            <span class="material-symbols-outlined">person</span>
+    <nav class="flex flex-col gap-2" aria-label="القائمة الجانبية">
+        <a
+            href="#profile"
+            class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-container-high text-on-surface-variant"
+        >
+            <span class="material-symbols-outlined" aria-hidden="true">person</span>
             <span>الملف الشخصي</span>
-
         </a>
 
-        <a href="#daily-goals"
-           class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-container-high text-on-surface-variant">
-
-            <span class="material-symbols-outlined">stars</span>
+        <a
+            href="#daily-goals"
+            class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-container-high text-on-surface-variant"
+        >
+            <span class="material-symbols-outlined" aria-hidden="true">stars</span>
             <span>الأهداف اليومية</span>
-
         </a>
 
-        <a href="quran.html"
-           class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-container-high text-on-surface-variant">
-
-            <span class="material-symbols-outlined">bookmark</span>
+        <a
+            href="quran.html#bookmarks"
+            class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-container-high text-on-surface-variant"
+        >
+            <span class="material-symbols-outlined" aria-hidden="true">bookmark</span>
             <span>العلامات المرجعية</span>
-
         </a>
 
-        <a href="#settings"
-           class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-container-high text-on-surface-variant">
-
-            <span class="material-symbols-outlined">settings</span>
+        <a
+            href="#settings"
+            class="flex items-center gap-4 p-3 rounded-lg hover:bg-surface-container-high text-on-surface-variant"
+        >
+            <span class="material-symbols-outlined" aria-hidden="true">settings</span>
             <span>الإعدادات</span>
-
         </a>
-
     </nav>
 </aside>
 
 
 <!-- MAIN -->
-<main id="home"
-      class="pt-24 md:pt-24 px-5 md:px-10 md:mr-72 max-w-[1140px] mx-auto pb-12">
-
+<main
+    id="home"
+    class="pt-24 md:pt-24 px-5 md:px-10 md:mr-72 max-w-[1140px] mx-auto pb-12"
+>
     <!-- PRAYER HERO -->
-    <section class="relative rounded-2xl overflow-hidden shadow-xl mb-12">
+    <section
+        class="relative rounded-2xl overflow-hidden shadow-xl mb-12"
+        aria-labelledby="currentPrayerName"
+    >
+        <div class="absolute inset-0 bg-primary" aria-hidden="true"></div>
 
-        <div class="absolute inset-0 bg-primary"></div>
-
-        <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/90 to-primary/70"></div>
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-primary via-primary/90 to-primary/70"
+            aria-hidden="true"
+        ></div>
 
         <div class="relative z-10 p-8 md:p-12 text-white flex flex-col items-center text-center">
 
             <!-- LOCATION -->
-
             <button
                 id="locationButton"
+                type="button"
                 class="glass-effect rounded-full px-5 py-2 mb-6 inline-flex items-center gap-2 border border-secondary/50"
             >
-
-                <span class="material-symbols-outlined text-secondary">
+                <span
+                    class="material-symbols-outlined text-secondary"
+                    aria-hidden="true"
+                >
                     location_on
                 </span>
 
-                <span id="prayerLocation"
-                      class="font-semibold text-primary">
+                <span
+                    id="prayerLocation"
+                    class="font-semibold text-primary"
+                >
                     جاري تحديد موقعك...
                 </span>
-
             </button>
 
-
             <!-- DATE -->
-
-            <p id="todayDate"
-               class="text-white/80 text-sm mb-4">
+            <p
+                id="todayDate"
+                class="text-white/80 text-sm mb-4"
+                aria-live="polite"
+            >
                 جاري تحميل التاريخ...
             </p>
 
-
             <!-- CURRENT PRAYER -->
-
             <p class="text-secondary text-sm mb-2">
                 الصلاة الحالية
             </p>
 
-            <h1 id="currentPrayerName"
-                class="text-4xl md:text-5xl font-bold mb-2">
+            <h1
+                id="currentPrayerName"
+                class="text-4xl md:text-5xl font-bold mb-2"
+                aria-live="polite"
+            >
                 جاري التحميل...
             </h1>
 
-            <p id="currentPrayerTime"
-               class="text-xl text-secondary mb-8">
+            <p
+                id="currentPrayerTime"
+                class="text-xl text-secondary mb-8"
+            >
                 --:--
             </p>
 
-
             <!-- COUNTDOWN -->
-
             <p class="text-sm text-secondary mb-2 font-bold">
                 الصلاة القادمة في
             </p>
 
-            <div class="flex items-start gap-3" dir="ltr">
-
+            <div class="flex items-start gap-3" dir="ltr" aria-label="العد التنازلي">
                 <div class="flex flex-col items-center">
-
-                    <span id="countdownHours"
-                          class="bg-white/10 rounded-lg px-4 py-2 border border-white/20 text-2xl font-bold">
+                    <span
+                        id="countdownHours"
+                        class="bg-white/10 rounded-lg px-4 py-2 border border-white/20 text-2xl font-bold"
+                    >
                         --
                     </span>
 
                     <span class="text-xs mt-1 text-white/70">
                         ساعة
                     </span>
-
                 </div>
 
-                <span class="text-2xl pt-2">
-                    :
-                </span>
+                <span class="text-2xl pt-2" aria-hidden="true">:</span>
 
                 <div class="flex flex-col items-center">
-
-                    <span id="countdownMinutes"
-                          class="bg-white/10 rounded-lg px-4 py-2 border border-white/20 text-2xl font-bold">
+                    <span
+                        id="countdownMinutes"
+                        class="bg-white/10 rounded-lg px-4 py-2 border border-white/20 text-2xl font-bold"
+                    >
                         --
                     </span>
 
                     <span class="text-xs mt-1 text-white/70">
                         دقيقة
                     </span>
-
                 </div>
 
-                <span class="text-2xl pt-2">
-                    :
-                </span>
+                <span class="text-2xl pt-2" aria-hidden="true">:</span>
 
                 <div class="flex flex-col items-center">
-
-                    <span id="countdownSeconds"
-                          class="bg-white/10 rounded-lg px-4 py-2 border border-white/20 text-2xl font-bold">
+                    <span
+                        id="countdownSeconds"
+                        class="bg-white/10 rounded-lg px-4 py-2 border border-white/20 text-2xl font-bold"
+                    >
                         --
                     </span>
 
                     <span class="text-xs mt-1 text-white/70">
                         ثانية
                     </span>
-
                 </div>
-
             </div>
 
-            <p id="nextPrayerText"
-               class="mt-5 text-white/90">
+            <p
+                id="nextPrayerText"
+                class="mt-5 text-white/90"
+                aria-live="polite"
+            >
                 جاري الحساب...
             </p>
-
         </div>
     </section>
 
@@ -318,36 +355,32 @@ tailwind.config = {
     <!-- GRID -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
 
-
         <!-- VERSE -->
-
         <section class="md:col-span-8 bg-surface rounded-2xl p-8 shadow-md border border-secondary/30">
-
             <div class="flex justify-between items-center mb-6">
-
                 <h2 class="text-xl font-bold text-primary flex items-center gap-2">
-
-                    <span class="material-symbols-outlined text-secondary">
+                    <span
+                        class="material-symbols-outlined text-secondary"
+                        aria-hidden="true"
+                    >
                         menu_book
                     </span>
-
                     آية اليوم
-
                 </h2>
 
-                <button id="shareVerseButton"
-                        class="text-on-surface-variant hover:text-primary">
-
-                    <span class="material-symbols-outlined">
+                <button
+                    id="shareVerseButton"
+                    type="button"
+                    aria-label="مشاركة آية اليوم"
+                    class="text-on-surface-variant hover:text-primary"
+                >
+                    <span class="material-symbols-outlined" aria-hidden="true">
                         share
                     </span>
-
                 </button>
-
             </div>
 
             <div class="text-center py-6">
-
                 <p class="text-3xl md:text-4xl text-primary leading-loose font-serif mb-6">
                     إِنَّ مَعَ الْعُسْرِ يُسْرًا
                 </p>
@@ -355,242 +388,228 @@ tailwind.config = {
                 <p class="text-sm text-on-surface-variant">
                     سورة الشرح (94:6)
                 </p>
-
             </div>
 
             <div class="text-center mt-4">
-
-                <a href="quran.html"
-                   class="inline-block bg-primary text-white px-8 py-3 rounded-full">
+                <a
+                    href="quran.html"
+                    class="inline-block bg-primary text-white px-8 py-3 rounded-full"
+                >
                     قراءة السورة
                 </a>
-
             </div>
-
         </section>
 
 
         <!-- DAILY GOALS -->
-
-        <section id="daily-goals"
-                 class="md:col-span-4 bg-surface rounded-2xl p-6 shadow-md">
-
+        <section
+            id="daily-goals"
+            class="md:col-span-4 bg-surface rounded-2xl p-6 shadow-md"
+        >
             <div class="flex justify-between items-center mb-6">
-
                 <h2 class="text-xl font-bold text-primary">
                     الأهداف اليومية
                 </h2>
 
-                <button id="editGoalsButton"
-                        class="text-primary">
-
-                    <span class="material-symbols-outlined">
+                <button
+                    id="editGoalsButton"
+                    type="button"
+                    aria-label="تعديل الأهداف اليومية"
+                    class="text-primary"
+                >
+                    <span class="material-symbols-outlined" aria-hidden="true">
                         edit
                     </span>
-
                 </button>
-
             </div>
-
 
             <!-- QURAN GOAL -->
-
             <div class="mb-7">
-
                 <div class="flex justify-between text-sm mb-2">
+                    <span>قراءة القرآن</span>
 
-                    <span>
-                        قراءة القرآن
-                    </span>
-
-                    <span id="quranGoalText"
-                          class="font-bold text-primary">
+                    <span
+                        id="quranGoalText"
+                        class="font-bold text-primary"
+                    >
                         0/20 صفحة
                     </span>
-
                 </div>
 
-                <div class="h-2 bg-surface-container rounded-full overflow-hidden">
-
-                    <div id="quranProgress"
-                         class="h-full bg-primary rounded-full"
-                         style="width:0%">
-                    </div>
-
+                <div
+                    class="h-2 bg-surface-container rounded-full overflow-hidden"
+                    role="progressbar"
+                    aria-label="تقدم قراءة القرآن"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                    id="quranProgressContainer"
+                >
+                    <div
+                        id="quranProgress"
+                        class="h-full bg-primary rounded-full transition-all duration-300"
+                        style="width:0%"
+                    ></div>
                 </div>
-
             </div>
-
 
             <!-- ADHKAR GOAL -->
-
             <div>
-
                 <div class="flex justify-between text-sm mb-2">
+                    <span>هدف الأذكار</span>
 
-                    <span>
-                        هدف الأذكار
-                    </span>
-
-                    <span id="adhkarGoalText"
-                          class="font-bold text-secondary">
+                    <span
+                        id="adhkarGoalText"
+                        class="font-bold text-secondary"
+                    >
                         0/100
                     </span>
-
                 </div>
 
-                <div class="h-2 bg-surface-container rounded-full overflow-hidden">
-
-                    <div id="adhkarProgress"
-                         class="h-full bg-secondary rounded-full"
-                         style="width:0%">
-                    </div>
-
+                <div
+                    class="h-2 bg-surface-container rounded-full overflow-hidden"
+                    role="progressbar"
+                    aria-label="تقدم الأذكار"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                    id="adhkarProgressContainer"
+                >
+                    <div
+                        id="adhkarProgress"
+                        class="h-full bg-secondary rounded-full transition-all duration-300"
+                        style="width:0%"
+                    ></div>
                 </div>
-
             </div>
 
-
-            <button id="incrementQuran"
-                    class="w-full mt-6 bg-primary text-white rounded-xl py-2">
+            <button
+                id="incrementQuran"
+                type="button"
+                class="w-full mt-6 bg-primary text-white rounded-xl py-2"
+            >
                 + صفحة قرآن
             </button>
 
-            <button id="incrementAdhkar"
-                    class="w-full mt-2 bg-secondary text-white rounded-xl py-2">
+            <button
+                id="incrementAdhkar"
+                type="button"
+                class="w-full mt-2 bg-secondary text-white rounded-xl py-2"
+            >
                 + ذكر
             </button>
-
         </section>
 
 
         <!-- QUICK ACTIONS -->
-
         <section class="md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-
-            <a href="quran.html"
-               class="bg-surface p-6 rounded-2xl shadow-md flex flex-col items-center text-center">
-
+            <a
+                href="quran.html"
+                class="bg-surface p-6 rounded-2xl shadow-md flex flex-col items-center text-center"
+            >
                 <div class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center mb-4">
-
-                    <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined" aria-hidden="true">
                         menu_book
                     </span>
-
                 </div>
 
-                <span class="font-bold text-primary">
-                    القرآن
-                </span>
-
+                <span class="font-bold text-primary">القرآن</span>
             </a>
 
-
-            <a href="quran.html#adhkar"
-               class="bg-surface p-6 rounded-2xl shadow-md flex flex-col items-center text-center">
-
+            <a
+                href="quran.html#adhkar"
+                class="bg-surface p-6 rounded-2xl shadow-md flex flex-col items-center text-center"
+            >
                 <div class="w-14 h-14 rounded-full bg-primary/80 text-white flex items-center justify-center mb-4">
-
-                    <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined" aria-hidden="true">
                         reorder
                     </span>
-
                 </div>
 
-                <span class="font-bold text-primary">
-                    الأذكار
-                </span>
-
+                <span class="font-bold text-primary">الأذكار</span>
             </a>
 
-
-            <a href="qibla.html"
-               class="bg-surface p-6 rounded-2xl shadow-md flex flex-col items-center text-center">
-
+            <a
+                href="qibla.html"
+                class="bg-surface p-6 rounded-2xl shadow-md flex flex-col items-center text-center"
+            >
                 <div class="w-14 h-14 rounded-full bg-secondary text-white flex items-center justify-center mb-4">
-
-                    <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined" aria-hidden="true">
                         explore
                     </span>
-
                 </div>
 
-                <span class="font-bold text-primary">
-                    القبلة
-                </span>
-
+                <span class="font-bold text-primary">القبلة</span>
             </a>
 
-
-            <button id="resetGoalsButton"
-                    class="bg-surface p-6 rounded-2xl shadow-md flex flex-col items-center text-center">
-
+            <button
+                id="resetGoalsButton"
+                type="button"
+                class="bg-surface p-6 rounded-2xl shadow-md flex flex-col items-center text-center"
+            >
                 <div class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center mb-4">
-
-                    <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined" aria-hidden="true">
                         restart_alt
                     </span>
-
                 </div>
 
                 <span class="font-bold text-primary">
                     إعادة الأهداف
                 </span>
-
             </button>
-
         </section>
 
 
         <!-- PROFILE -->
-
-        <section id="profile"
-                 class="md:col-span-12 bg-surface rounded-2xl p-8 shadow-md">
-
-            <div class="flex items-center justify-between">
-
+        <section
+            id="profile"
+            class="md:col-span-12 bg-surface rounded-2xl p-8 shadow-md"
+        >
+            <div class="flex items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
-
                     <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center">
-
-                        <span class="material-symbols-outlined text-3xl">
+                        <span
+                            class="material-symbols-outlined text-3xl"
+                            aria-hidden="true"
+                        >
                             person
                         </span>
-
                     </div>
 
                     <div>
-
-                        <h2 id="profileName"
-                            class="text-2xl font-bold text-primary">
+                        <h2
+                            id="profileName"
+                            class="text-2xl font-bold text-primary"
+                        >
                             سيف الدين
                         </h2>
 
-                        <p id="profileSubtitle"
-                           class="text-on-surface-variant">
+                        <p
+                            id="profileSubtitle"
+                            class="text-on-surface-variant"
+                        >
                             رحلة روحانية
                         </p>
-
                     </div>
-
                 </div>
 
-                <button id="editProfileButton"
-                        class="bg-primary text-white px-5 py-2 rounded-full">
+                <button
+                    id="editProfileButton"
+                    type="button"
+                    class="bg-primary text-white px-5 py-2 rounded-full"
+                >
                     تعديل
                 </button>
-
             </div>
-
         </section>
 
 
         <!-- APP -->
-
-        <section class="md:col-span-12 bg-surface rounded-2xl p-8 shadow-md border border-secondary/30">
-
+        <section
+            id="settings"
+            class="md:col-span-12 bg-surface rounded-2xl p-8 shadow-md border border-secondary/30"
+        >
             <div class="text-center max-w-2xl mx-auto">
-
                 <h2 class="text-3xl font-bold text-primary mb-4">
                     حمل التطبيق
                 </h2>
@@ -600,19 +619,23 @@ tailwind.config = {
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-
-                    <button class="bg-primary text-white px-8 py-3 rounded-xl">
+                    <button
+                        id="appStoreButton"
+                        type="button"
+                        class="bg-primary text-white px-8 py-3 rounded-xl"
+                    >
                         App Store
                     </button>
 
-                    <button class="bg-primary text-white px-8 py-3 rounded-xl">
+                    <button
+                        id="googlePlayButton"
+                        type="button"
+                        class="bg-primary text-white px-8 py-3 rounded-xl"
+                    >
                         Google Play
                     </button>
-
                 </div>
-
             </div>
-
         </section>
 
     </div>
@@ -620,159 +643,189 @@ tailwind.config = {
 
 
 <!-- MOBILE NAV -->
-
-<nav class="md:hidden fixed bottom-0 right-0 w-full z-50 flex justify-around items-center px-4 py-2 safe-area-bottom bg-surface shadow-lg rounded-t-2xl border-t border-secondary/10">
-
-    <a href="#home"
-       class="flex flex-col items-center text-primary">
-
-        <span class="material-symbols-outlined">
+<nav
+    class="md:hidden fixed bottom-0 right-0 w-full z-50 flex justify-around items-center px-4 py-2 safe-area-bottom bg-surface shadow-lg rounded-t-2xl border-t border-secondary/10"
+    aria-label="التنقل على الهاتف"
+>
+    <a
+        href="#home"
+        class="flex flex-col items-center text-primary"
+        aria-current="page"
+    >
+        <span class="material-symbols-outlined" aria-hidden="true">
             home
         </span>
-
-        <span class="text-xs">
-            الرئيسية
-        </span>
-
+        <span class="text-xs">الرئيسية</span>
     </a>
 
-    <a href="quran.html"
-       class="flex flex-col items-center text-on-surface-variant">
-
-        <span class="material-symbols-outlined">
+    <a
+        href="quran.html"
+        class="flex flex-col items-center text-on-surface-variant"
+    >
+        <span class="material-symbols-outlined" aria-hidden="true">
             menu_book
         </span>
-
-        <span class="text-xs">
-            القرآن
-        </span>
-
+        <span class="text-xs">القرآن</span>
     </a>
 
-    <a href="quran.html#adhkar"
-       class="flex flex-col items-center text-on-surface-variant">
-
-        <span class="material-symbols-outlined">
+    <a
+        href="quran.html#adhkar"
+        class="flex flex-col items-center text-on-surface-variant"
+    >
+        <span class="material-symbols-outlined" aria-hidden="true">
             reorder
         </span>
-
-        <span class="text-xs">
-            الأذكار
-        </span>
-
+        <span class="text-xs">الأذكار</span>
     </a>
 
-    <a href="qibla.html"
-       class="flex flex-col items-center text-on-surface-variant">
-
-        <span class="material-symbols-outlined">
+    <a
+        href="qibla.html"
+        class="flex flex-col items-center text-on-surface-variant"
+    >
+        <span class="material-symbols-outlined" aria-hidden="true">
             explore
         </span>
-
-        <span class="text-xs">
-            القبلة
-        </span>
-
+        <span class="text-xs">القبلة</span>
     </a>
-
 </nav>
 
 
 <!-- PROFILE MODAL -->
-
-<div id="profileModal"
-     class="hidden fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-5">
-
+<div
+    id="profileModal"
+    class="hidden fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="profileModalTitle"
+>
     <div class="bg-surface rounded-2xl p-6 w-full max-w-md">
-
-        <h3 class="text-xl font-bold text-primary mb-5">
+        <h3
+            id="profileModalTitle"
+            class="text-xl font-bold text-primary mb-5"
+        >
             الملف الشخصي
         </h3>
 
-        <label class="block mb-2">
+        <label
+            for="profileNameInput"
+            class="block mb-2"
+        >
             الاسم
         </label>
 
-        <input id="profileNameInput"
-               class="w-full border rounded-xl p-3 mb-4"
-               maxlength="40"
-               placeholder="اكتب اسمك">
+        <input
+            id="profileNameInput"
+            type="text"
+            class="w-full border rounded-xl p-3 mb-4"
+            maxlength="40"
+            autocomplete="name"
+            placeholder="اكتب اسمك"
+        >
 
-        <label class="block mb-2">
+        <label
+            for="profileSubtitleInput"
+            class="block mb-2"
+        >
             وصف قصير
         </label>
 
-        <input id="profileSubtitleInput"
-               class="w-full border rounded-xl p-3 mb-6"
-               maxlength="80"
-               placeholder="رحلة روحانية">
+        <input
+            id="profileSubtitleInput"
+            type="text"
+            class="w-full border rounded-xl p-3 mb-6"
+            maxlength="80"
+            placeholder="رحلة روحانية"
+        >
 
         <div class="flex gap-3">
-
-            <button id="saveProfileButton"
-                    class="flex-1 bg-primary text-white py-3 rounded-xl">
+            <button
+                id="saveProfileButton"
+                type="button"
+                class="flex-1 bg-primary text-white py-3 rounded-xl"
+            >
                 حفظ
             </button>
 
-            <button id="closeProfileButton"
-                    class="flex-1 bg-gray-200 py-3 rounded-xl">
+            <button
+                id="closeProfileButton"
+                type="button"
+                class="flex-1 bg-gray-200 py-3 rounded-xl"
+            >
                 إلغاء
             </button>
-
         </div>
-
     </div>
-
 </div>
 
 
 <!-- GOALS MODAL -->
-
-<div id="goalsModal"
-     class="hidden fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-5">
-
+<div
+    id="goalsModal"
+    class="hidden fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-5"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="goalsModalTitle"
+>
     <div class="bg-surface rounded-2xl p-6 w-full max-w-md">
-
-        <h3 class="text-xl font-bold text-primary mb-5">
+        <h3
+            id="goalsModalTitle"
+            class="text-xl font-bold text-primary mb-5"
+        >
             إعداد الأهداف اليومية
         </h3>
 
-        <label class="block mb-2">
+        <label
+            for="quranTargetInput"
+            class="block mb-2"
+        >
             هدف القرآن — صفحات
         </label>
 
-        <input id="quranTargetInput"
-               type="number"
-               min="1"
-               max="1000"
-               class="w-full border rounded-xl p-3 mb-4">
+        <input
+            id="quranTargetInput"
+            type="number"
+            min="1"
+            max="1000"
+            step="1"
+            inputmode="numeric"
+            class="w-full border rounded-xl p-3 mb-4"
+        >
 
-        <label class="block mb-2">
+        <label
+            for="adhkarTargetInput"
+            class="block mb-2"
+        >
             هدف الأذكار
         </label>
 
-        <input id="adhkarTargetInput"
-               type="number"
-               min="1"
-               max="100000"
-               class="w-full border rounded-xl p-3 mb-6">
+        <input
+            id="adhkarTargetInput"
+            type="number"
+            min="1"
+            max="100000"
+            step="1"
+            inputmode="numeric"
+            class="w-full border rounded-xl p-3 mb-6"
+        >
 
         <div class="flex gap-3">
-
-            <button id="saveGoalsButton"
-                    class="flex-1 bg-primary text-white py-3 rounded-xl">
+            <button
+                id="saveGoalsButton"
+                type="button"
+                class="flex-1 bg-primary text-white py-3 rounded-xl"
+            >
                 حفظ
             </button>
 
-            <button id="closeGoalsButton"
-                    class="flex-1 bg-gray-200 py-3 rounded-xl">
+            <button
+                id="closeGoalsButton"
+                type="button"
+                class="flex-1 bg-gray-200 py-3 rounded-xl"
+            >
                 إلغاء
             </button>
-
         </div>
-
     </div>
-
 </div>
 
 
@@ -798,17 +851,6 @@ const CONFIG = {
     apiBase:
         "https://api.aladhan.com/v1/timings",
 
-    /*
-       5 = Egyptian General Authority of Survey
-
-       لو أردت طريقة أخرى يمكن تغيير الرقم:
-
-       3 = Muslim World League
-       4 = Umm Al-Qura
-       5 = Egyptian General Authority of Survey
-       2 = ISNA
-    */
-
     calculationMethod: 5,
 
     school: 0,
@@ -820,10 +862,23 @@ const CONFIG = {
     },
 
     storageKeys: {
-        profile: "saif_profile_v2",
-        goals: "saif_goals_v2",
-        location: "saif_location_v2"
-    }
+        profile: "saif_profile_v3",
+        goals: "saif_goals_v3",
+        location: "saif_location_v3"
+    },
+
+    limits: {
+        quranTargetMin: 1,
+        quranTargetMax: 1000,
+        adhkarTargetMin: 1,
+        adhkarTargetMax: 100000
+    },
+
+    apiTimeout: 15000,
+
+    refreshInterval: 6 * 60 * 60 * 1000,
+
+    dateCheckInterval: 30000
 
 };
 
@@ -832,9 +887,11 @@ const CONFIG = {
    STATE
 ===================================================== */
 
-let state = {
+const state = {
 
     location: null,
+
+    yesterday: null,
 
     today: null,
 
@@ -844,7 +901,11 @@ let state = {
 
     refreshTimer: null,
 
-    isLoading: false
+    dateTimer: null,
+
+    isLoading: false,
+
+    loadRequestId: 0
 
 };
 
@@ -857,8 +918,6 @@ const prayerNames = {
 
     Fajr: "الفجر",
 
-    Sunrise: "الشروق",
-
     Dhuhr: "الظهر",
 
     Asr: "العصر",
@@ -868,11 +927,6 @@ const prayerNames = {
     Isha: "العشاء"
 
 };
-
-
-/*
-   لا نعتبر الشروق صلاة عند تحديد الصلاة الحالية.
-*/
 
 const mainPrayerKeys = [
     "Fajr",
@@ -887,9 +941,8 @@ const mainPrayerKeys = [
    DOM
 ===================================================== */
 
-const $ = id =>
+const $ = (id) =>
     document.getElementById(id);
-
 
 const prayerLocation =
     $("prayerLocation");
@@ -917,10 +970,66 @@ const nextPrayerText =
 
 
 /* =====================================================
-   STORAGE HELPERS
+   BASIC HELPERS
 ===================================================== */
 
-function readStorage(key, fallback = null) {
+function isFiniteNumber(value) {
+
+    return Number.isFinite(
+        Number(value)
+    );
+
+}
+
+
+function clamp(
+    value,
+    min,
+    max
+) {
+
+    return Math.min(
+        max,
+        Math.max(min, value)
+    );
+
+}
+
+
+function getInteger(
+    value,
+    fallback,
+    min,
+    max
+) {
+
+    const number =
+        Number(value);
+
+    if (!Number.isFinite(number)) {
+        return fallback;
+    }
+
+    const integer =
+        Math.floor(number);
+
+    return clamp(
+        integer,
+        min,
+        max
+    );
+
+}
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function readStorage(
+    key,
+    fallback = null
+) {
 
     try {
 
@@ -942,10 +1051,14 @@ function readStorage(key, fallback = null) {
 
         return fallback;
     }
+
 }
 
 
-function writeStorage(key, value) {
+function writeStorage(
+    key,
+    value
+) {
 
     try {
 
@@ -954,13 +1067,100 @@ function writeStorage(key, value) {
             JSON.stringify(value)
         );
 
+        return true;
+
     } catch (error) {
 
         console.warn(
             "Storage write error:",
             error
         );
+
+        return false;
     }
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function getLocalDateKey(
+    date = new Date()
+) {
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+
+}
+
+
+function addDays(
+    date,
+    amount
+) {
+
+    const result =
+        new Date(date);
+
+    result.setDate(
+        result.getDate() + amount
+    );
+
+    return result;
+
+}
+
+
+function formatApiDate(
+    date
+) {
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
+    const year =
+        date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+
+}
+
+
+function formatArabicDate(
+    date
+) {
+
+    return new Intl.DateTimeFormat(
+        "ar-EG",
+        {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    ).format(date);
+
 }
 
 
@@ -977,22 +1177,62 @@ const defaultProfile = {
 };
 
 
+function normalizeProfile(
+    value
+) {
+
+    if (
+        !value ||
+        typeof value !== "object"
+    ) {
+
+        return {
+            ...defaultProfile
+        };
+
+    }
+
+    const name =
+        typeof value.name === "string"
+            ? value.name.trim().slice(0, 40)
+            : "";
+
+    const subtitle =
+        typeof value.subtitle === "string"
+            ? value.subtitle.trim().slice(0, 80)
+            : "";
+
+    return {
+
+        name:
+            name ||
+            defaultProfile.name,
+
+        subtitle:
+            subtitle ||
+            defaultProfile.subtitle
+
+    };
+
+}
+
+
 let profile =
-    readStorage(
-        CONFIG.storageKeys.profile,
-        defaultProfile
+    normalizeProfile(
+        readStorage(
+            CONFIG.storageKeys.profile,
+            defaultProfile
+        )
     );
 
 
 function renderProfile() {
 
     const name =
-        profile.name ||
-        defaultProfile.name;
+        profile.name;
 
     const subtitle =
-        profile.subtitle ||
-        defaultProfile.subtitle;
+        profile.subtitle;
 
     $("profileName").textContent =
         name;
@@ -1009,14 +1249,19 @@ function renderProfile() {
 function openProfileModal() {
 
     $("profileNameInput").value =
-        profile.name || "";
+        profile.name;
 
     $("profileSubtitleInput").value =
-        profile.subtitle || "";
+        profile.subtitle;
 
     $("profileModal").classList.remove(
         "hidden"
     );
+
+    setTimeout(() => {
+        $("profileNameInput").focus();
+    }, 0);
+
 }
 
 
@@ -1025,6 +1270,7 @@ function closeProfileModal() {
     $("profileModal").classList.add(
         "hidden"
     );
+
 }
 
 
@@ -1057,24 +1303,20 @@ $("saveProfileButton")
             const name =
                 $("profileNameInput")
                     .value
-                    .trim();
+                    .trim()
+                    .slice(0, 40);
 
             const subtitle =
                 $("profileSubtitleInput")
                     .value
-                    .trim();
+                    .trim()
+                    .slice(0, 80);
 
-            profile = {
-
-                name:
-                    name ||
-                    defaultProfile.name,
-
-                subtitle:
-                    subtitle ||
-                    defaultProfile.subtitle
-
-            };
+            profile =
+                normalizeProfile({
+                    name,
+                    subtitle
+                });
 
             writeStorage(
                 CONFIG.storageKeys.profile,
@@ -1090,12 +1332,13 @@ $("saveProfileButton")
 
 
 /* =====================================================
-   DAILY GOALS
+   GOALS
 ===================================================== */
 
 const defaultGoals = {
 
-    date: getLocalDateKey(),
+    date:
+        getLocalDateKey(),
 
     quran: {
         current: 0,
@@ -1110,62 +1353,107 @@ const defaultGoals = {
 };
 
 
-let goals =
-    readStorage(
-        CONFIG.storageKeys.goals,
-        null
-    );
-
-
-/*
-   كل يوم يبدأ بأهداف جديدة.
-
-   الهدف نفسه يبقى،
-   لكن التقدم يرجع صفر.
-*/
-
-function normalizeGoals() {
+function normalizeGoalsData(
+    value
+) {
 
     const today =
         getLocalDateKey();
 
     if (
-        !goals ||
-        goals.date !== today
+        !value ||
+        typeof value !== "object"
     ) {
 
-        const oldTargets = {
-
-            quran:
-                goals?.quran?.target ||
-                20,
-
-            adhkar:
-                goals?.adhkar?.target ||
-                100
-
+        return {
+            ...defaultGoals,
+            date: today
         };
 
-        goals = {
+    }
+
+
+    const quranTarget =
+        getInteger(
+            value?.quran?.target,
+            20,
+            CONFIG.limits.quranTargetMin,
+            CONFIG.limits.quranTargetMax
+        );
+
+    const adhkarTarget =
+        getInteger(
+            value?.adhkar?.target,
+            100,
+            CONFIG.limits.adhkarTargetMin,
+            CONFIG.limits.adhkarTargetMax
+        );
+
+
+    const quranCurrent =
+        getInteger(
+            value?.quran?.current,
+            0,
+            0,
+            quranTarget
+        );
+
+    const adhkarCurrent =
+        getInteger(
+            value?.adhkar?.current,
+            0,
+            0,
+            adhkarTarget
+        );
+
+
+    if (value.date !== today) {
+
+        return {
 
             date: today,
 
             quran: {
                 current: 0,
-                target: oldTargets.quran
+                target: quranTarget
             },
 
             adhkar: {
                 current: 0,
-                target: oldTargets.adhkar
+                target: adhkarTarget
             }
 
         };
 
-        saveGoals();
     }
 
+
+    return {
+
+        date: today,
+
+        quran: {
+            current: quranCurrent,
+            target: quranTarget
+        },
+
+        adhkar: {
+            current: adhkarCurrent,
+            target: adhkarTarget
+        }
+
+    };
+
 }
+
+
+let goals =
+    normalizeGoalsData(
+        readStorage(
+            CONFIG.storageKeys.goals,
+            defaultGoals
+        )
+    );
 
 
 function saveGoals() {
@@ -1178,17 +1466,46 @@ function saveGoals() {
 }
 
 
-function getProgress(current, target) {
+function normalizeGoals() {
 
-    if (!target || target <= 0) {
+    const normalized =
+        normalizeGoalsData(
+            goals
+        );
+
+    const changed =
+        JSON.stringify(normalized) !==
+        JSON.stringify(goals);
+
+    goals =
+        normalized;
+
+    if (changed) {
+        saveGoals();
+    }
+
+}
+
+
+function getProgress(
+    current,
+    target
+) {
+
+    if (
+        !Number.isFinite(current) ||
+        !Number.isFinite(target) ||
+        target <= 0
+    ) {
         return 0;
     }
 
-    return Math.min(
-        100,
+    return clamp(
         Math.round(
             current / target * 100
-        )
+        ),
+        0,
+        100
     );
 
 }
@@ -1214,17 +1531,26 @@ function renderGoals() {
     $("quranGoalText").textContent =
         `${goals.quran.current}/${goals.quran.target} صفحة`;
 
-
     $("adhkarGoalText").textContent =
         `${goals.adhkar.current}/${goals.adhkar.target}`;
-
 
     $("quranProgress").style.width =
         `${quranPercent}%`;
 
-
     $("adhkarProgress").style.width =
         `${adhkarPercent}%`;
+
+    $("quranProgressContainer")
+        .setAttribute(
+            "aria-valuenow",
+            String(quranPercent)
+        );
+
+    $("adhkarProgressContainer")
+        .setAttribute(
+            "aria-valuenow",
+            String(adhkarPercent)
+        );
 
 }
 
@@ -1240,11 +1566,14 @@ $("incrementQuran")
                 goals.quran.current <
                 goals.quran.target
             ) {
-                goals.quran.current++;
-            }
 
-            saveGoals();
-            renderGoals();
+                goals.quran.current++;
+
+                saveGoals();
+
+                renderGoals();
+
+            }
 
         }
     );
@@ -1261,11 +1590,14 @@ $("incrementAdhkar")
                 goals.adhkar.current <
                 goals.adhkar.target
             ) {
-                goals.adhkar.current++;
-            }
 
-            saveGoals();
-            renderGoals();
+                goals.adhkar.current++;
+
+                saveGoals();
+
+                renderGoals();
+
+            }
 
         }
     );
@@ -1290,6 +1622,7 @@ $("resetGoalsButton")
             goals.adhkar.current = 0;
 
             saveGoals();
+
             renderGoals();
 
         }
@@ -1309,9 +1642,13 @@ $("editGoalsButton")
             $("adhkarTargetInput").value =
                 goals.adhkar.target;
 
-            $("goalsModal").classList.remove(
-                "hidden"
-            );
+            $("goalsModal")
+                .classList
+                .remove("hidden");
+
+            setTimeout(() => {
+                $("quranTargetInput").focus();
+            }, 0);
 
         }
     );
@@ -1322,9 +1659,9 @@ $("closeGoalsButton")
         "click",
         () => {
 
-            $("goalsModal").classList.add(
-                "hidden"
-            );
+            $("goalsModal")
+                .classList
+                .add("hidden");
 
         }
     );
@@ -1336,19 +1673,19 @@ $("saveGoalsButton")
         () => {
 
             const quranTarget =
-                Math.max(
-                    1,
-                    Number(
-                        $("quranTargetInput").value
-                    ) || 20
+                getInteger(
+                    $("quranTargetInput").value,
+                    20,
+                    CONFIG.limits.quranTargetMin,
+                    CONFIG.limits.quranTargetMax
                 );
 
             const adhkarTarget =
-                Math.max(
-                    1,
-                    Number(
-                        $("adhkarTargetInput").value
-                    ) || 100
+                getInteger(
+                    $("adhkarTargetInput").value,
+                    100,
+                    CONFIG.limits.adhkarTargetMin,
+                    CONFIG.limits.adhkarTargetMax
                 );
 
 
@@ -1367,7 +1704,6 @@ $("saveGoalsButton")
                     quranTarget
                 );
 
-
             goals.adhkar.current =
                 Math.min(
                     goals.adhkar.current,
@@ -1376,83 +1712,74 @@ $("saveGoalsButton")
 
 
             saveGoals();
+
             renderGoals();
 
-            $("goalsModal").classList.add(
-                "hidden"
-            );
+            $("goalsModal")
+                .classList
+                .add("hidden");
 
         }
     );
 
 
 /* =====================================================
-   DATE
+   LOCATION STORAGE
 ===================================================== */
 
-function getLocalDateKey(date = new Date()) {
+function normalizeLocation(
+    value
+) {
 
-    const year =
-        date.getFullYear();
+    if (
+        !value ||
+        typeof value !== "object"
+    ) {
+        return null;
+    }
 
-    const month =
-        String(
-            date.getMonth() + 1
-        ).padStart(2, "0");
+    const latitude =
+        Number(value.latitude);
 
-    const day =
-        String(
-            date.getDate()
-        ).padStart(2, "0");
+    const longitude =
+        Number(value.longitude);
 
-    return `${year}-${month}-${day}`;
+    if (
+        !Number.isFinite(latitude) ||
+        !Number.isFinite(longitude)
+    ) {
+        return null;
+    }
 
-}
+    if (
+        latitude < -90 ||
+        latitude > 90 ||
+        longitude < -180 ||
+        longitude > 180
+    ) {
+        return null;
+    }
 
+    return {
 
-function formatApiDate(date) {
+        latitude,
 
-    /*
-       AlAdhan يقبل DD-MM-YYYY
-    */
+        longitude,
 
-    const day =
-        String(
-            date.getDate()
-        ).padStart(2, "0");
+        name:
+            typeof value.name === "string" &&
+            value.name.trim()
+                ? value.name.trim().slice(0, 200)
+                : "الموقع المحفوظ"
 
-    const month =
-        String(
-            date.getMonth() + 1
-        ).padStart(2, "0");
-
-    const year =
-        date.getFullYear();
-
-    return `${day}-${month}-${year}`;
-
-}
-
-
-function formatArabicDate(date) {
-
-    return new Intl.DateTimeFormat(
-        "ar-EG",
-        {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        }
-    ).format(date);
+    };
 
 }
 
 
-/* =====================================================
-   LOCATION
-
-function saveLocation(location) {
+function saveLocation(
+    location
+) {
 
     writeStorage(
         CONFIG.storageKeys.location,
@@ -1464,63 +1791,105 @@ function saveLocation(location) {
 
 function getSavedLocation() {
 
-    return readStorage(
-        CONFIG.storageKeys.location,
-        null
+    return normalizeLocation(
+        readStorage(
+            CONFIG.storageKeys.location,
+            null
+        )
     );
 
 }
 
 
-function setLocation(location) {
+function setLocation(
+    location,
+    save = true
+) {
+
+    const normalized =
+        normalizeLocation(
+            location
+        );
+
+    if (!normalized) {
+        return false;
+    }
 
     state.location =
-        location;
+        normalized;
 
-    saveLocation(location);
+    if (save) {
+        saveLocation(normalized);
+    }
 
     prayerLocation.textContent =
-        location.name;
+        normalized.name;
+
+    return true;
 
 }
 
 
-async function reverseGeocode(latitude, longitude) {
+/* =====================================================
+   REVERSE GEOCODING
+===================================================== */
 
-    /*
-       Nominatim لا نحتاجه للمواقيت،
-       فقط لإظهار اسم المكان.
-    */
+async function reverseGeocode(
+    latitude,
+    longitude
+) {
 
     try {
 
+        const controller =
+            new AbortController();
+
+        const timeout =
+            setTimeout(
+                () => controller.abort(),
+                8000
+            );
+
+
         const url =
-            `https://nominatim.openstreetmap.org/reverse` +
+            "https://nominatim.openstreetmap.org/reverse" +
             `?format=jsonv2` +
             `&lat=${encodeURIComponent(latitude)}` +
             `&lon=${encodeURIComponent(longitude)}` +
             `&accept-language=ar`;
 
+
         const response =
             await fetch(
                 url,
                 {
+                    method: "GET",
+
                     headers: {
                         "Accept":
                             "application/json"
-                    }
+                    },
+
+                    signal:
+                        controller.signal
                 }
             );
+
+
+        clearTimeout(timeout);
+
 
         if (!response.ok) {
             return null;
         }
 
+
         const data =
             await response.json();
 
+
         return (
-            data.display_name ||
+            data?.display_name ||
             null
         );
 
@@ -1532,12 +1901,18 @@ async function reverseGeocode(latitude, longitude) {
 }
 
 
+/* =====================================================
+   GEOLOCATION
+===================================================== */
+
 function requestLocation() {
 
     return new Promise(
         (resolve, reject) => {
 
-            if (!navigator.geolocation) {
+            if (
+                !navigator.geolocation
+            ) {
 
                 reject(
                     new Error(
@@ -1560,7 +1935,8 @@ function requestLocation() {
 
                     timeout: 15000,
 
-                    maximumAge: 5 * 60 * 1000
+                    maximumAge:
+                        5 * 60 * 1000
                 }
 
             );
@@ -1572,8 +1948,52 @@ function requestLocation() {
 
 
 /* =====================================================
-   PRAYER API
+   API
 ===================================================== */
+
+async function fetchWithTimeout(
+    url
+) {
+
+    const controller =
+        new AbortController();
+
+    const timeout =
+        setTimeout(
+            () => controller.abort(),
+            CONFIG.apiTimeout
+        );
+
+    try {
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    },
+
+                    cache: "no-store",
+
+                    signal:
+                        controller.signal
+                }
+            );
+
+        return response;
+
+    } finally {
+
+        clearTimeout(timeout);
+
+    }
+
+}
+
 
 async function getPrayerTimes(
     latitude,
@@ -1589,43 +2009,28 @@ async function getPrayerTimes(
 
     url.searchParams.set(
         "latitude",
-        latitude
+        String(latitude)
     );
 
     url.searchParams.set(
         "longitude",
-        longitude
+        String(longitude)
     );
 
     url.searchParams.set(
         "method",
-        CONFIG.calculationMethod
+        String(CONFIG.calculationMethod)
     );
 
     url.searchParams.set(
         "school",
-        CONFIG.school
+        String(CONFIG.school)
     );
 
 
-    /*
-       إضافة adjustment مهم عند بعض المناطق
-       ولكنه لا يغير المواقيت يدويًا.
-    */
-
     const response =
-        await fetch(
-            url.toString(),
-            {
-                method: "GET",
-
-                headers: {
-                    "Accept":
-                        "application/json"
-                },
-
-                cache: "no-store"
-            }
+        await fetchWithTimeout(
+            url.toString()
         );
 
 
@@ -1643,13 +2048,12 @@ async function getPrayerTimes(
 
 
     if (
-        result.code !== 200 ||
-        !result.data ||
-        !result.data.timings
+        result?.code !== 200 ||
+        !result?.data?.timings
     ) {
 
         throw new Error(
-            result.status ||
+            result?.status ||
             "بيانات المواقيت غير متاحة"
         );
 
@@ -1673,20 +2077,13 @@ async function getPrayerTimes(
    TIME PARSING
 ===================================================== */
 
-function cleanPrayerTime(value) {
+function cleanPrayerTime(
+    value
+) {
 
     if (!value) {
         return null;
     }
-
-    /*
-       API أحيانًا يرجع:
-       04:15
-       أو
-       04:15 (EET)
-
-       نأخذ HH:MM فقط.
-    */
 
     const match =
         String(value).match(
@@ -1710,7 +2107,9 @@ function cleanPrayerTime(value) {
         minutes < 0 ||
         minutes > 59
     ) {
+
         return null;
+
     }
 
 
@@ -1724,15 +2123,6 @@ function cleanPrayerTime(value) {
 
 }
 
-
-/*
-   مهم جدًا:
-
-   لا نستخدم new Date("04:30")
-   لأنه غير صالح.
-
-   ونبني Date محليًا صراحةً.
-*/
 
 function prayerTimeToDate(
     time,
@@ -1762,11 +2152,14 @@ function prayerTimeToDate(
 }
 
 
-/* =====================================================
-   TIME FORMAT
-===================================================== */
+/*
+   يحول HH:MM إلى وقت مقروء.
+   لا نستخدم new Date("04:30").
+*/
 
-function formatArabicTime(time) {
+function formatArabicTime(
+    time
+) {
 
     const parsed =
         cleanPrayerTime(time);
@@ -1803,7 +2196,17 @@ function formatArabicTime(time) {
    PRAYER LIST
 ===================================================== */
 
-function getPrayerList(timings) {
+function getPrayerList(
+    timings
+) {
+
+    if (
+        !timings ||
+        typeof timings !== "object"
+    ) {
+        return [];
+    }
+
 
     return mainPrayerKeys
         .map(
@@ -1821,8 +2224,10 @@ function getPrayerList(timings) {
         )
         .filter(
             prayer =>
-                cleanPrayerTime(
-                    prayer.time
+                Boolean(
+                    cleanPrayerTime(
+                        prayer.time
+                    )
                 )
         );
 
@@ -1830,7 +2235,74 @@ function getPrayerList(timings) {
 
 
 /* =====================================================
-   LOAD TODAY + TOMORROW
+   PRAYER DATA HELPERS
+===================================================== */
+
+function createPrayerDay(
+    date,
+    result
+) {
+
+    return {
+
+        date:
+            new Date(date),
+
+        dateKey:
+            getLocalDateKey(date),
+
+        timings:
+            result.timings,
+
+        meta:
+            result.meta
+
+    };
+
+}
+
+
+function getPrayerAtOrAfter(
+    prayers,
+    now
+) {
+
+    for (
+        const prayer
+        of prayers
+    ) {
+
+        const prayerDate =
+            prayerTimeToDate(
+                prayer.time,
+                now
+            );
+
+        if (
+            prayerDate &&
+            prayerDate > now
+        ) {
+
+            return {
+
+                prayer,
+
+                date:
+                    prayerDate
+
+            };
+
+        }
+
+    }
+
+    return null;
+
+}
+
+
+/* =====================================================
+   LOAD PRAYER TIMES
 ===================================================== */
 
 async function loadPrayerTimes() {
@@ -1847,68 +2319,95 @@ async function loadPrayerTimes() {
 
     state.isLoading = true;
 
+    const requestId =
+        ++state.loadRequestId;
+
 
     try {
 
         const now =
             new Date();
 
-        const tomorrow =
+        const yesterdayDate =
+            addDays(now, -1);
+
+        const todayDateObject =
             new Date(now);
 
-        tomorrow.setDate(
-            tomorrow.getDate() + 1
-        );
+        const tomorrowDate =
+            addDays(now, 1);
+
+
+        const latitude =
+            state.location.latitude;
+
+        const longitude =
+            state.location.longitude;
 
 
         const [
+            yesterdayResult,
             todayResult,
             tomorrowResult
         ] = await Promise.all([
 
             getPrayerTimes(
-                state.location.latitude,
-                state.location.longitude,
-                now
+                latitude,
+                longitude,
+                yesterdayDate
             ),
 
             getPrayerTimes(
-                state.location.latitude,
-                state.location.longitude,
-                tomorrow
+                latitude,
+                longitude,
+                todayDateObject
+            ),
+
+            getPrayerTimes(
+                latitude,
+                longitude,
+                tomorrowDate
             )
 
         ]);
 
 
-        state.today = {
+        /*
+           لو بدأ طلب أحدث أثناء انتظار هذه الطلبات،
+           لا نسمح للبيانات القديمة باستبدال الجديدة.
+        */
 
-            date: new Date(now),
-
-            timings:
-                todayResult.timings,
-
-            meta:
-                todayResult.meta
-
-        };
+        if (
+            requestId !==
+            state.loadRequestId
+        ) {
+            return;
+        }
 
 
-        state.tomorrow = {
+        state.yesterday =
+            createPrayerDay(
+                yesterdayDate,
+                yesterdayResult
+            );
 
-            date: new Date(tomorrow),
+        state.today =
+            createPrayerDay(
+                todayDateObject,
+                todayResult
+            );
 
-            timings:
-                tomorrowResult.timings,
-
-            meta:
-                tomorrowResult.meta
-
-        };
+        state.tomorrow =
+            createPrayerDay(
+                tomorrowDate,
+                tomorrowResult
+            );
 
 
         todayDate.textContent =
-            formatArabicDate(now);
+            formatArabicDate(
+                now
+            );
 
 
         updatePrayerDisplay();
@@ -1929,7 +2428,9 @@ async function loadPrayerTimes() {
             "--:--";
 
         nextPrayerText.textContent =
-            "تأكد من اتصال الإنترنت وحاول مرة أخرى";
+            error?.name === "AbortError"
+                ? "انتهت مهلة الاتصال، حاول مرة أخرى"
+                : "تأكد من اتصال الإنترنت وحاول مرة أخرى";
 
 
         countdownHours.textContent =
@@ -1958,6 +2459,7 @@ async function loadPrayerTimes() {
 function updatePrayerDisplay() {
 
     if (
+        !state.yesterday ||
         !state.today ||
         !state.tomorrow
     ) {
@@ -1975,9 +2477,27 @@ function updatePrayerDisplay() {
         );
 
 
+    const yesterdayPrayers =
+        getPrayerList(
+            state.yesterday.timings
+        );
+
+
     const tomorrowPrayers =
         getPrayerList(
             state.tomorrow.timings
+        );
+
+
+    /*
+       الحالة الطبيعية:
+       ابحث عن أول صلاة لم تبدأ اليوم.
+    */
+
+    const upcomingToday =
+        getPrayerAtOrAfter(
+            todayPrayers,
+            now
         );
 
 
@@ -1988,76 +2508,103 @@ function updatePrayerDisplay() {
     let nextPrayerDate = null;
 
 
-    /*
-       نبحث عن أول صلاة لم تبدأ.
-    */
+    if (upcomingToday) {
 
-    for (
-        const prayer
-        of todayPrayers
-    ) {
+        nextPrayer =
+            upcomingToday.prayer;
 
-        const prayerDate =
-            prayerTimeToDate(
-                prayer.time,
-                now
-            );
+        nextPrayerDate =
+            upcomingToday.date;
 
 
-        if (!prayerDate) {
-            continue;
+        /*
+           إذا كان هناك فجر قادم، فهذا يعني أننا
+           قبل الفجر، وبالتالي الصلاة الحالية هي
+           عشاء الأمس.
+        */
+
+        if (
+            nextPrayer.key === "Fajr"
+        ) {
+
+            const yesterdayIsha =
+                yesterdayPrayers.find(
+                    prayer =>
+                        prayer.key === "Isha"
+                );
+
+
+            if (yesterdayIsha) {
+
+                currentPrayer =
+                    yesterdayIsha;
+
+            } else {
+
+                currentPrayer = {
+                    key: "Isha",
+                    name: prayerNames.Isha,
+                    time:
+                        state.yesterday.timings.Isha
+                };
+
+            }
+
+        } else {
+
+            /*
+               نحن بعد الفجر وقبل الصلاة التالية.
+               الصلاة الحالية هي آخر صلاة انتهت اليوم.
+            */
+
+            for (
+                const prayer
+                of todayPrayers
+            ) {
+
+                const prayerDate =
+                    prayerTimeToDate(
+                        prayer.time,
+                        now
+                    );
+
+                if (
+                    prayerDate &&
+                    prayerDate <= now
+                ) {
+
+                    currentPrayer =
+                        prayer;
+
+                }
+
+            }
+
         }
 
+    } else {
 
-        if (prayerDate > now) {
+        /*
+           بعد العشاء:
+           الصلاة القادمة = فجر الغد.
+        */
 
-            nextPrayer =
-                prayer;
-
-            nextPrayerDate =
-                prayerDate;
-
-            break;
-
-        }
-
-
-        currentPrayer =
-            prayer;
-
-    }
-
-
-    /*
-       بعد العشاء:
-
-       الصلاة القادمة = فجر الغد.
-    */
-
-    if (!nextPrayer) {
-
-        const tomorrowDate =
-            new Date(
-                state.tomorrow.date
-            );
-
-
-        const fajr =
+        const tomorrowFajr =
             tomorrowPrayers.find(
                 prayer =>
                     prayer.key === "Fajr"
             );
 
 
-        if (fajr) {
+        if (tomorrowFajr) {
 
             nextPrayer =
-                fajr;
+                tomorrowFajr;
 
             nextPrayerDate =
                 prayerTimeToDate(
-                    fajr.time,
-                    tomorrowDate
+                    tomorrowFajr.time,
+                    state.tomorrow.date
                 );
 
         }
@@ -2066,16 +2613,22 @@ function updatePrayerDisplay() {
         currentPrayer =
             todayPrayers[
                 todayPrayers.length - 1
-            ];
+            ] || {
+
+                key: "Isha",
+
+                name: prayerNames.Isha,
+
+                time:
+                    state.today.timings.Isha
+
+            };
 
     }
 
 
     /*
-       قبل الفجر:
-
-       current prayer = آخر صلاة أمس
-       وليس Isha اليوم.
+       fallback إضافي.
     */
 
     if (!currentPrayer) {
@@ -2084,32 +2637,50 @@ function updatePrayerDisplay() {
 
             key: "Isha",
 
-            name:
-                prayerNames.Isha,
+            name: prayerNames.Isha,
 
             time:
-                state.today.timings.Isha
+                state.yesterday?.timings?.Isha ||
+                state.today?.timings?.Isha
 
         };
 
     }
 
 
-    /*
-       لو نحن قبل الفجر،
-       فالصلاة القادمة هي فجر اليوم
-       وقد تم إيجادها في الحلقة.
-    */
+    if (
+        !nextPrayer ||
+        !nextPrayerDate
+    ) {
 
+        currentPrayerName.textContent =
+            currentPrayer?.name ||
+            "غير متاح";
 
-    if (!nextPrayerDate) {
+        currentPrayerTime.textContent =
+            formatArabicTime(
+                currentPrayer?.time
+            );
+
+        nextPrayerText.textContent =
+            "لا توجد بيانات للصلاة القادمة";
+
+        countdownHours.textContent =
+            "--";
+
+        countdownMinutes.textContent =
+            "--";
+
+        countdownSeconds.textContent =
+            "--";
+
         return;
+
     }
 
 
     currentPrayerName.textContent =
         currentPrayer.name;
-
 
     currentPrayerTime.textContent =
         formatArabicTime(
@@ -2132,15 +2703,94 @@ function updatePrayerDisplay() {
    COUNTDOWN
 ===================================================== */
 
-function startCountdown(targetDate) {
+function clearCountdown() {
 
-    if (state.countdownTimer) {
+    if (
+        state.countdownTimer
+    ) {
 
         clearInterval(
             state.countdownTimer
         );
 
+        state.countdownTimer =
+            null;
+
     }
+
+}
+
+
+function renderCountdown(
+    difference
+) {
+
+    if (
+        difference <= 0
+    ) {
+
+        countdownHours.textContent =
+            "00";
+
+        countdownMinutes.textContent =
+            "00";
+
+        countdownSeconds.textContent =
+            "00";
+
+        return;
+
+    }
+
+
+    const totalSeconds =
+        Math.floor(
+            difference / 1000
+        );
+
+
+    const hours =
+        Math.floor(
+            totalSeconds / 3600
+        );
+
+
+    const minutes =
+        Math.floor(
+            (totalSeconds % 3600) / 60
+        );
+
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    countdownHours.textContent =
+        String(hours).padStart(
+            2,
+            "0"
+        );
+
+    countdownMinutes.textContent =
+        String(minutes).padStart(
+            2,
+            "0"
+        );
+
+    countdownSeconds.textContent =
+        String(seconds).padStart(
+            2,
+            "0"
+        );
+
+}
+
+
+function startCountdown(
+    targetDate
+) {
+
+    clearCountdown();
 
 
     function tick() {
@@ -2149,71 +2799,52 @@ function startCountdown(targetDate) {
             new Date();
 
 
-        let difference =
+        const difference =
             targetDate.getTime() -
             now.getTime();
 
 
-        /*
-           انتهت الصلاة القادمة.
+        if (
+            difference <= 0
+        ) {
 
-           بدل استمرار العداد بالسالب،
-           نعيد تحميل المواقيت.
-        */
+            clearCountdown();
 
-        if (difference <= 0) {
+            /*
+               لا نرسل عدة طلبات متتالية.
+               ننتظر قليلًا ثم نعيد حساب اليوم.
+            */
 
-            clearInterval(
-                state.countdownTimer
+            setTimeout(
+                () => {
+
+                    checkDateChange();
+
+                    if (
+                        state.today &&
+                        state.tomorrow
+                    ) {
+
+                        updatePrayerDisplay();
+
+                    } else {
+
+                        loadPrayerTimes();
+
+                    }
+
+                },
+                1500
             );
 
-            loadPrayerTimes();
-
             return;
+
         }
 
 
-        const totalSeconds =
-            Math.floor(
-                difference / 1000
-            );
-
-
-        const hours =
-            Math.floor(
-                totalSeconds / 3600
-            );
-
-
-        const minutes =
-            Math.floor(
-                (totalSeconds % 3600) / 60
-            );
-
-
-        const seconds =
-            totalSeconds % 60;
-
-
-        countdownHours.textContent =
-            String(hours).padStart(
-                2,
-                "0"
-            );
-
-
-        countdownMinutes.textContent =
-            String(minutes).padStart(
-                2,
-                "0"
-            );
-
-
-        countdownSeconds.textContent =
-            String(seconds).padStart(
-                2,
-                "0"
-            );
+        renderCountdown(
+            difference
+        );
 
     }
 
@@ -2229,24 +2860,94 @@ function startCountdown(targetDate) {
 
 }
 
+
 /* =====================================================
-   LOCATION START
+   LOCATION SYSTEM
 ===================================================== */
 
+async function updateFromCurrentLocation() {
+
+    const position =
+        await requestLocation();
+
+
+    const latitude =
+        Number(
+            position.coords.latitude
+        );
+
+    const longitude =
+        Number(
+            position.coords.longitude
+        );
+
+
+    if (
+        !Number.isFinite(latitude) ||
+        !Number.isFinite(longitude) ||
+        latitude < -90 ||
+        latitude > 90 ||
+        longitude < -180 ||
+        longitude > 180
+    ) {
+
+        throw new Error(
+            "إحداثيات الموقع غير صالحة"
+        );
+
+    }
+
+
+    let name =
+        "مواقيت الصلاة حسب موقعك";
+
+
+    const place =
+        await reverseGeocode(
+            latitude,
+            longitude
+        );
+
+
+    if (place) {
+        name = place;
+    }
+
+
+    const changed =
+        !state.location ||
+        state.location.latitude !== latitude ||
+        state.location.longitude !== longitude;
+
+
+    setLocation({
+
+        latitude,
+
+        longitude,
+
+        name
+
+    });
+
+
+    if (changed) {
+
+        state.yesterday = null;
+        state.today = null;
+        state.tomorrow = null;
+
+        clearCountdown();
+
+    }
+
+
+    await loadPrayerTimes();
+
+}
+
+
 async function startLocationSystem() {
-
-    /*
-       1. نحاول أخذ الموقع الحالي.
-
-       2. إذا فشل:
-          نستخدم الموقع المحفوظ.
-
-       3. إذا لا يوجد:
-          نستخدم القاهرة.
-
-       لاحظ أننا لم نضع مكة كافتراضي.
-    */
-
 
     prayerLocation.textContent =
         "جاري تحديد موقعك...";
@@ -2254,69 +2955,7 @@ async function startLocationSystem() {
 
     try {
 
-        const position =
-            await requestLocation();
-
-
-        const latitude =
-            Number(
-                position.coords.latitude
-            );
-
-
-        const longitude =
-            Number(
-                position.coords.longitude
-            );
-
-
-        if (
-            !Number.isFinite(latitude) ||
-            !Number.isFinite(longitude)
-        ) {
-
-            throw new Error(
-                "إحداثيات الموقع غير صالحة"
-            );
-
-        }
-
-
-        let name =
-            "مواقيت الصلاة حسب موقعك";
-
-
-        /*
-           نحاول فقط تحسين اسم المكان.
-           لو فشل reverse geocoding
-           لا تتأثر المواقيت.
-        */
-
-        const place =
-            await reverseGeocode(
-                latitude,
-                longitude
-            );
-
-
-        if (place) {
-            name = place;
-        }
-
-
-        setLocation({
-
-            latitude,
-
-            longitude,
-
-            name
-
-        });
-
-
-        await loadPrayerTimes();
-
+        await updateFromCurrentLocation();
 
     } catch (error) {
 
@@ -2330,48 +2969,23 @@ async function startLocationSystem() {
             getSavedLocation();
 
 
-        if (
-            savedLocation &&
-            Number.isFinite(
-                Number(
-                    savedLocation.latitude
-                )
-            ) &&
-            Number.isFinite(
-                Number(
-                    savedLocation.longitude
-                )
-            )
-        ) {
+        if (savedLocation) {
 
-            setLocation({
+            setLocation(
+                savedLocation
+            );
 
-                latitude:
-                    Number(
-                        savedLocation.latitude
-                    ),
-
-                longitude:
-                    Number(
-                        savedLocation.longitude
-                    ),
-
-                name:
-                    savedLocation.name ||
-                    "الموقع المحفوظ"
-
-            });
-
+            prayerLocation.textContent =
+                `${savedLocation.name} — الموقع المحفوظ`;
 
         } else {
-
-            /*
-               fallback واضح بدل مكة.
-            */
 
             setLocation(
                 CONFIG.defaultLocation
             );
+
+            prayerLocation.textContent =
+                `${CONFIG.defaultLocation.name} — الموقع الافتراضي`;
 
         }
 
@@ -2384,7 +2998,73 @@ async function startLocationSystem() {
 
 
 /* =====================================================
-   REFRESH / DAY CHANGE
+   MANUAL LOCATION BUTTON
+===================================================== */
+
+$("locationButton")
+    ?.addEventListener(
+        "click",
+        async () => {
+
+            const button =
+                $("locationButton");
+
+            const oldText =
+                prayerLocation.textContent;
+
+
+            button.disabled = true;
+
+            button.setAttribute(
+                "aria-busy",
+                "true"
+            );
+
+
+            prayerLocation.textContent =
+                "جاري تحديث الموقع...";
+
+
+            try {
+
+                await updateFromCurrentLocation();
+
+            } catch (error) {
+
+                console.warn(
+                    "Manual location error:",
+                    error
+                );
+
+
+                if (state.location) {
+
+                    prayerLocation.textContent =
+                        `${state.location.name} — تعذر التحديث`;
+
+                } else {
+
+                    prayerLocation.textContent =
+                        "تعذر تحديد الموقع";
+
+                }
+
+            } finally {
+
+                button.disabled = false;
+
+                button.removeAttribute(
+                    "aria-busy"
+                );
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   DATE CHANGE
 ===================================================== */
 
 let lastDateKey =
@@ -2398,7 +3078,8 @@ function checkDateChange() {
 
 
     if (
-        currentKey !== lastDateKey
+        currentKey !==
+        lastDateKey
     ) {
 
         lastDateKey =
@@ -2409,100 +3090,62 @@ function checkDateChange() {
 
         renderGoals();
 
+        clearCountdown();
+
         loadPrayerTimes();
 
+        return true;
+
     }
+
+
+    return false;
 
 }
 
 
-/*
-   نفحص كل 30 ثانية.
-
-   هذا مهم جدًا عند عبور منتصف الليل.
-*/
-
-state.refreshTimer =
-    setInterval(
-        checkDateChange,
-        30000
-    );
-
-
 /* =====================================================
-   MANUAL LOCATION BUTTON
+   VISIBILITY
 ===================================================== */
 
-$("locationButton")
-    ?.addEventListener(
-        "click",
-        async () => {
+document.addEventListener(
+    "visibilitychange",
+    () => {
 
-            prayerLocation.textContent =
-                "جاري تحديث الموقع...";
+        if (
+            document.hidden
+        ) {
 
-            try {
+            clearCountdown();
 
-                const position =
-                    await requestLocation();
+            return;
 
-
-                const latitude =
-                    Number(
-                        position.coords.latitude
-                    );
+        }
 
 
-                const longitude =
-                    Number(
-                        position.coords.longitude
-                    );
+        const changed =
+            checkDateChange();
 
 
-                let name =
-                    "مواقيت الصلاة حسب موقعك";
+        if (!changed) {
 
+            if (
+                state.today &&
+                state.tomorrow
+            ) {
 
-                const place =
-                    await reverseGeocode(
-                        latitude,
-                        longitude
-                    );
+                updatePrayerDisplay();
 
+            } else {
 
-                if (place) {
-                    name = place;
-                }
-
-
-                setLocation({
-
-                    latitude,
-
-                    longitude,
-
-                    name
-
-                });
-
-
-                await loadPrayerTimes();
-
-
-            } catch (error) {
-
-                console.warn(
-                    error
-                );
-
-
-                prayerLocation.textContent =
-                    "تعذر تحديد الموقع";
+                loadPrayerTimes();
 
             }
 
         }
-    );
+
+    }
+);
 
 
 /* =====================================================
@@ -2521,7 +3164,8 @@ $("shareVerseButton")
             try {
 
                 if (
-                    navigator.share
+                    typeof navigator.share ===
+                    "function"
                 ) {
 
                     await navigator.share({
@@ -2533,8 +3177,15 @@ $("shareVerseButton")
 
                     });
 
-                } else if (
-                    navigator.clipboard
+                    return;
+
+                }
+
+
+                if (
+                    navigator.clipboard &&
+                    typeof navigator.clipboard.writeText ===
+                    "function"
                 ) {
 
                     await navigator.clipboard.writeText(
@@ -2545,11 +3196,34 @@ $("shareVerseButton")
                         "تم نسخ الآية"
                     );
 
+                    return;
+
                 }
 
-            } catch {
 
-                // المستخدم أغلق نافذة المشاركة
+                alert(
+                    text
+                );
+
+            } catch (error) {
+
+                /*
+                   AbortError يعني أن المستخدم أغلق
+                   نافذة المشاركة بنفسه.
+                */
+
+                if (
+                    error?.name !==
+                    "AbortError"
+                ) {
+
+                    console.warn(
+                        "Share error:",
+                        error
+                    );
+
+                }
+
             }
 
         }
@@ -2557,19 +3231,149 @@ $("shareVerseButton")
 
 
 /* =====================================================
-   DOWNLOAD
+   APP DOWNLOAD
 ===================================================== */
+
+function showAppLinksMessage() {
+
+    alert(
+        "أضف رابط App Store أو Google Play الخاص بتطبيقك."
+    );
+
+}
+
 
 $("downloadAppButton")
     ?.addEventListener(
         "click",
-        () => {
+        showAppLinksMessage
+    );
 
-            alert(
-                "أضف هنا رابط App Store أو Google Play الخاص بتطبيقك."
-            );
+
+$("appStoreButton")
+    ?.addEventListener(
+        "click",
+        showAppLinksMessage
+    );
+
+
+$("googlePlayButton")
+    ?.addEventListener(
+        "click",
+        showAppLinksMessage
+    );
+
+
+/* =====================================================
+   MODAL ESCAPE
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key !==
+            "Escape"
+        ) {
+            return;
+        }
+
+
+        if (
+            !$("profileModal")
+                .classList
+                .contains("hidden")
+        ) {
+
+            closeProfileModal();
 
         }
+
+
+        if (
+            !$("goalsModal")
+                .classList
+                .contains("hidden")
+        ) {
+
+            $("goalsModal")
+                .classList
+                .add("hidden");
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   CLICK OUTSIDE MODALS
+===================================================== */
+
+$("profileModal")
+    ?.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                $("profileModal")
+            ) {
+
+                closeProfileModal();
+
+            }
+
+        }
+    );
+
+
+$("goalsModal")
+    ?.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                $("goalsModal")
+            ) {
+
+                $("goalsModal")
+                    .classList
+                    .add("hidden");
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   TIMERS
+===================================================== */
+
+state.dateTimer =
+    setInterval(
+        checkDateChange,
+        CONFIG.dateCheckInterval
+    );
+
+
+state.refreshTimer =
+    setInterval(
+        () => {
+
+            if (
+                !document.hidden
+            ) {
+
+                loadPrayerTimes();
+
+            }
+
+        },
+        CONFIG.refreshInterval
     );
 
 
@@ -2586,47 +3390,8 @@ renderGoals();
 startLocationSystem();
 
 
-/*
-   تحديث المواقيت كل 6 ساعات
-   لضمان عدم بقاء البيانات قديمة.
-*/
-
-setInterval(
-    () => {
-
-        loadPrayerTimes();
-
-    },
-    6 * 60 * 60 * 1000
-);
-
-
-/*
-   عند عودة الصفحة من الخلفية
-   نعيد حساب المواقيت والعداد.
-*/
-
-document.addEventListener(
-    "visibilitychange",
-    () => {
-
-        if (
-            !document.hidden
-        ) {
-
-            checkDateChange();
-
-            updatePrayerDisplay();
-
-        }
-
-    }
-);
-
-
 })();
 </script>
 
 </body>
 </html>
-```
