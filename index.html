@@ -329,4 +329,20 @@
 <span class="">القبلة</span>
 </a>
 </nav>
+<script>
+  // Connect the Stitch screens into a usable multi-page website.
+  (() => {
+    const routes = { 'الرئيسية': 'index.html', 'القرآن': 'quran.html', 'الأذكار': 'quran.html#adhkar', 'القبلة': 'qibla.html' };
+    document.querySelectorAll('a[href="#"]').forEach((link) => {
+      const label = link.textContent.replace(/\s+/g, ' ').trim();
+      const destination = Object.entries(routes).find(([name]) => label.includes(name));
+      if (destination) link.href = destination[1];
+    });
+    document.querySelectorAll('button').forEach((button) => {
+      if (button.textContent.includes('تنزيل التطبيق')) {
+        button.addEventListener('click', () => alert('سيتم إضافة رابط تحميل التطبيق هنا قريبًا.'));
+      }
+    });
+  })();
+</script>
 </body></html>
