@@ -3,41 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق مواقيت الصلاة والأهداف</title>
-    <style>
-        body {
-            font-family: Tahoma, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            text-align: center;
-            padding: 20px;
-        }
-        #app {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        button {
-            margin: 5px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            background: #007bff;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .countdown {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 15px 0;
-        }
-    </style>
+    <title>تطبيق مواقيت الصلاة</title>
 </head>
 <body>
 
@@ -54,11 +20,9 @@
         <span id="countdownHours">--</span>:<span id="countdownMinutes">--</span>:<span id="countdownSeconds">--</span>
     </div>
 
-    <div>
-        <button id="locationButton">تحديث الموقع</button>
-        <button id="shareVerseButton">مشاركة آية</button>
-        <button id="downloadAppButton">تحميل التطبيق</button>
-    </div>
+    <button id="locationButton">تحديث الموقع</button>
+    <button id="shareVerseButton">مشاركة آية</button>
+    <button id="downloadAppButton">تحميل التطبيق</button>
 </div>
 
 <script>
@@ -67,7 +31,7 @@
        CONFIG & STATE
     ===================================================== */
     const CONFIG = {
-        apiBase: "https://api.aladhan.com/v1/timingsByCity",
+        apiBase: "https://api.aladhan.com/v1/timingsByCity", // أو التقويم المناسب للإحداثيات timings
         calculationMethod: 5,
         school: 0,
         storageKeys: {
@@ -150,6 +114,7 @@
         }).format(date);
     }
 
+    // دوال وهمية لمنع حدوث أخطاء إذا كانت مرتبطة بملفات أخرى
     function normalizeGoals() {}
     function renderGoals() {}
     function renderProfile() {}
@@ -336,19 +301,22 @@
             currentPrayer = prayer;
         }
 
-        // التصحيح الجذري هنا: إذا انتهت صلاة العشاء وفات وقتها (يعني دخلنا الليل بعد العشاء)
-        const ishaPrayer = todayPrayers.find(p => p.key === "Isha");
-        const ishaDate = ishaPrayer ? prayerTimeToDate(ishaPrayer.time, now) : null;
-
-        if (!nextPrayer || (ishaDate && now >= ishaDate)) {
+        if (!nextPrayer) {
             const tomorrowDate = new Date(state.tomorrow.date);
             const fajr = tomorrowPrayers.find(prayer => prayer.key === "Fajr");
             if (fajr) {
                 nextPrayer = fajr;
                 nextPrayerDate = prayerTimeToDate(fajr.time, tomorrowDate);
             }
-            // بما أن العشاء انقضت وقتها، نثبت أن الصلاة الحالية هي العشاء التي انقضى وقتها اليوم
-            currentPrayer = ishaPrayer || todayPrayers[todayPrayers.length - 1];
+            currentPrayer = todayPrayers[todayPrayers.length - 1];
+        }
+
+        if (!currentPrayer) {
+            currentPrayer = {
+                key: "Isha",
+                name: prayerNames.Isha,
+                time: state.today.timings.Isha
+            };
         }
 
         if (!nextPrayerDate) return;
@@ -389,9 +357,6 @@
         state.countdownTimer = setInterval(tick, 1000);
     }
 
-    /* =====================================================
-       LOCATION START & HANDLERS
-    ===================================================== */
     async function startLocationSystem() {
         if (prayerLocation) prayerLocation.textContent = "جاري تحديد موقعك...";
 
@@ -445,6 +410,9 @@
 
     state.refreshTimer = setInterval(checkDateChange, 30000);
 
+    /* =====================================================
+       MANUAL LOCATION BUTTON (تم معالجة الخطأ وحالة الواجهة هنا)
+    ===================================================== */
     $("locationButton")?.addEventListener("click", async () => {
         if (prayerLocation) prayerLocation.textContent = "جاري تحديث الموقع...";
 
@@ -461,6 +429,7 @@
             await loadPrayerTimes();
         } catch (error) {
             console.warn(error);
+            // العودة لاسم الموقع الحالي أو اسم محفوظ بدلاً من ترك الواجهة معلقة بخطأ دائم
             if (state.location && state.location.name) {
                 prayerLocation.textContent = state.location.name;
             } else {
